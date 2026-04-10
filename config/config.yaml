@@ -1,0 +1,52 @@
+data:
+  raw_path: "data/raw/churn_data.csv"
+  processed_path: "data/processed/churn_processed.csv"
+  target_column: "Churn"
+  test_size: 0.2
+  random_state: 42
+
+preprocessing:
+  numerical_strategy: "median"
+  categorical_strategy: "most_frequent"
+  drop_columns: []
+
+features:
+  scale_numerical: true
+  encode_categorical: true
+
+model:
+  algorithm: "xgboost"   # options: logistic_regression, random_forest, xgboost, lightgbm
+  random_state: 42
+  hyperparameters:
+    xgboost:
+      n_estimators: 200
+      max_depth: 6
+      learning_rate: 0.05
+      subsample: 0.8
+      colsample_bytree: 0.8
+      use_label_encoder: false
+      eval_metric: "logloss"
+    random_forest:
+      n_estimators: 200
+      max_depth: 10
+      min_samples_split: 5
+    logistic_regression:
+      max_iter: 1000
+      C: 1.0
+    lightgbm:
+      n_estimators: 200
+      max_depth: 6
+      learning_rate: 0.05
+
+evaluation:
+  metrics:
+    - accuracy
+    - precision
+    - recall
+    - f1
+    - roc_auc
+  output_path: "outputs/evaluation"
+
+output:
+  model_path: "outputs/models/churn_model.joblib"
+  pipeline_path: "outputs/models/churn_pipeline.joblib"
