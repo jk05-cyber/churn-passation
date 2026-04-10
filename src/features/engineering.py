@@ -5,8 +5,6 @@ from typing import List, Optional
 
 import numpy as np
 import pandas as pd
-from sklearn.feature_selection import SelectFromModel
-from sklearn.ensemble import RandomForestClassifier
 
 logger = logging.getLogger(__name__)
 
@@ -95,6 +93,9 @@ def select_features(
     List[str]
         Column names of the selected features.
     """
+    from sklearn.ensemble import RandomForestClassifier  # noqa: PLC0415
+    from sklearn.feature_selection import SelectFromModel  # noqa: PLC0415
+
     selector = SelectFromModel(
         RandomForestClassifier(n_estimators=100, random_state=random_state),
         threshold=threshold,

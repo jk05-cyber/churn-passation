@@ -12,7 +12,6 @@ from src.data.preprocessing import (
     build_preprocessor,
     drop_columns,
     encode_target,
-    get_column_types,
     split_features_target,
 )
 from src.features.engineering import engineer_features
@@ -118,14 +117,9 @@ class ChurnPipeline:
         prep_cfg = self.cfg["preprocessing"]
         algorithm = model_cfg["algorithm"]
 
-        numerical_cols, categorical_cols = get_column_types(
-            X_train.assign(**{col: None for col in []}),
-            target_column="__none__",
-        )
-
         numerical_cols, categorical_cols = (
             X_train.select_dtypes(include=["int64", "float64"]).columns.tolist(),
-            X_train.select_dtypes(include=["object", "category", "bool"]).columns.tolist(),
+            X_train.select_dtypes(include=["str", "object", "category", "bool"]).columns.tolist(),
         )
 
         preprocessor = build_preprocessor(
